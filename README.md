@@ -1,254 +1,82 @@
-📘 Backpropagation From Scratch (Lending Club Risk Model)
-
-This project walks through backpropagation line-by-line using real Lending Club credit-risk data.
-
-No frameworks.
-No hidden math.
-Just pure linear algebra, calculus, and Python.
-
-If you've ever wanted to truly understand how models learn, this breakdown makes backpropagation “click.”
-
+🚀 Understanding Backpropagation — The Engine Behind Modern AI
+ Most people hear “backpropagation” and think it’s PhD-level math wizardry.
+ It’s not. It’s feedback. It’s cause and effect.
+ It’s how models learn.
+This week, I broke down backprop line-by-line in Python using real Lending Club credit-risk data. And finally — it clicked.
 🔍 What Backpropagation Really Does
-
-Backpropagation answers one question:
-
-“How should I change each weight to make the prediction slightly less wrong?”
-
-It works by combining:
-
-Linear algebra → forward pass
-
-Chain rule of calculus → backward pass
-
-Together, they drive the learning process.
+Backprop answers one question:
+How should I change each weight to make the prediction slightly less wrong?
+It’s powered by linear algebra in the forward pass and the chain rule in the backward pass.
 
 1️⃣ Forward Pass (Linear Algebra)
-Linear Score
+Linear score: z = w1*x1 + w2*x2 + w3*x3 + b
+Key ideas:
+ • x is a feature vector (3 features in this project)
+ • w is a weight vector (one weight per feature)
+ • The dot product shows how strongly the inputs align with the learned weights
+ • The output z defines a risk boundary (a hyperplane)
+Probability: p = sigmoid(z)
+Loss: Binary cross-entropy measuring how wrong the prediction was.
 
-We start with the dot product:
-
-𝑧
-=
-𝑤
-⋅
-𝑥
-+
-𝑏
-z=w⋅x+b
-
-Where:
-
-x ∈ ℝ³ is the scaled borrower feature vector
-
-w ∈ ℝ³ is the weight vector
-
-b is the bias
-
-z is a scalar representing the model’s raw “risk score”
-
-The dot product determines how strongly the input aligns with the learned weights — effectively defining a hyperplane separating “good loan” vs “bad loan.”
-
-Probability (Sigmoid)
-𝑝
-=
-𝜎
-(
-𝑧
-)
-p=σ(z)
-
-The sigmoid transforms the linear score into a meaningful probability of default.
-
-Loss (Binary Cross-Entropy)
-
-We measure how wrong the prediction was:
-
-𝐿
-=
-−
-[
-𝑦
-𝑙
-𝑜
-𝑔
-(
-𝑝
-)
-+
-(
-1
-−
-𝑦
-)
-𝑙
-𝑜
-𝑔
-(
-1
-−
-𝑝
-)
-]
-L=−[ylog(p)+(1−y)log(1−p)]
 2️⃣ Backward Pass (Chain Rule of Calculus)
+We push the error backward through the computation graph.
+How loss changes with probability: dL/dp
 
-Now we push the error backward through the computation graph.
+How probability changes with score: dp/dz = p * (1 - p)
 
-Step 1 — How loss changes with respect to probability
-𝑑
-𝐿
-/
-𝑑
-𝑝
-dL/dp
-Step 2 — How probability changes with respect to the linear score
-𝑑
-𝑝
-/
-𝑑
-𝑧
-=
-𝑝
-(
-1
-−
-𝑝
-)
-dp/dz=p(1−p)
-Chain Rule — Bringing it all together
-𝑑
-𝐿
-/
-𝑑
-𝑧
-=
-(
-𝑑
-𝐿
-/
-𝑑
-𝑝
-)
-∗
-(
-𝑑
-𝑝
-/
-𝑑
-𝑧
-)
-=
-𝑝
-−
-𝑦
-dL/dz=(dL/dp)∗(dp/dz)=p−y
+Chain rule (combine them): dL/dz = (dL/dp) * (dp/dz)
 
-This is one of the most elegant results in machine learning:
-the derivative of the entire loss collapses to (prediction − truth).
+This simplifies beautifully to: dL/dz = p - y
 
-Weight Gradients
-𝑑
-𝐿
-/
-𝑑
-𝑤
-𝑗
-=
-(
-𝑝
-−
-𝑦
-)
-𝑥
-𝑗
-dL/dw
-j
-	​
-
-=(p−y)x
-j
-	​
-
+Weight gradients: dL/dw_j = (p - y) * x_j
 
 Where:
+ • x_j = feature value
+ • (p - y) = error signal
 
-x_j comes from linear algebra (input vector)
-
-p - y comes from calculus (chain rule)
-
-Every weight update depends on two things:
-
-The model’s error
-
-The feature that contributed to that error
-
-That’s learning.
+Every weight update is driven by:
+ • the model's error
+ • the feature that contributed to that error
 
 📉 Running It on a Real Borrower
+Using actual Lending Club data:
+• 3 scaled features
+ • True label (is_bad)
+ • Initial weights
+ • One gradient-descent update
 
-Using real Lending Club data:
-
-3 scaled financial features
-
-Ground-truth default label (is_bad)
-
-Initial weights and bias
-
-One gradient descent step
-
-After the update:
-
-Loss decreases
-
-Prediction becomes more accurate
-
-The model improves immediately
+Result:
+ • Loss drops
+ • Probability shifts closer to truth
+ • Model improves immediately
 
 Backprop is compounding interest for intelligence.
 
-🧠 Why Backprop Matters
+🧠 Why It Matters
+Backprop powers:
+• Logistic regression
+• Neural networks
+• Transformers
+• LLMs
+• Recommendation engines
+• Risk models
+• Reinforcement learning
 
-Backpropagation powers:
+If a model learns, backprop is inside it.
 
-Logistic Regression
+🔗 I Built a Step-Through Notebook
+Includes:
+• Manual logits
+• Sigmoid math
+• Cross-entropy
+• Chain rule
+• Weight updates
+• Pre/post loss comparison
 
-Neural Networks
+No frameworks hiding the math.
 
-Transformers
-
-LLMs
-
-Recommendation engines
-
-Risk scoring systems
-
-Reinforcement learning
-
-If a model learns, backprop is doing the work.
-
-📓 Notebook Included
-
-The repo contains a full Python notebook that shows:
-
-Manual computation of logits
-
-Sigmoid transformation
-
-Cross-entropy loss
-
-Full derivative chain rule
-
-Weight gradients
-
-Post-update accuracy improvement
-
-Completely transparent — no shortcuts.
+🔗 https://lnkd.in/e3NBkMhy
 
 💬 Final Thought
-
-Understanding backprop gives you X-ray vision into how AI actually learns.
-
-Once you see it, you can never unsee it.
-
-You don’t just use models —
-you engineer them.
+Understanding backprop is like gaining X-ray vision into how AI learns.
+Once you see it… you can’t unsee it.
