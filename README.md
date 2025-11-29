@@ -6,19 +6,22 @@ This week, I broke down backprop line-by-line in Python using real Lending Club 
 🔍 What Backpropagation Really Does
 Backprop answers one question:
 How should I change each weight to make the prediction slightly less wrong?
-It’s powered by linear algebra in the forward pass and the chain rule in the backward pass.
+It’s powered by linear algebra in the forward pass and the chain rule of derivatives in the backward pass.
 
 1️⃣ Forward Pass (Linear Algebra)
 Linear score: z = w1*x1 + w2*x2 + w3*x3 + b
 Key ideas:
  • x is a feature vector (3 features in this project)
  • w is a weight vector (one weight per feature)
+ • b is the intercept — the model’s baseline prediction, like the b in y=mx+b.
  • The dot product shows how strongly the inputs align with the learned weights
  • The output z defines a risk boundary (a hyperplane)
 Probability: p = sigmoid(z)
 Loss: Binary cross-entropy measuring how wrong the prediction was.
 
 2️⃣ Backward Pass (Chain Rule of Calculus)
+This is where derivatives matter: a derivative tells us how fast the loss changes when we nudge a weight. Backprop uses these derivatives to trace responsibility backward — showing exactly which weights increased the error and by how much.
+
 We push the error backward through the computation graph.
 How loss changes with probability: dL/dp
 
@@ -62,21 +65,5 @@ Backprop powers:
 • Risk models
 • Reinforcement learning
 
-If a model learns, backprop is inside it.
-
-🔗 I Built a Step-Through Notebook
-Includes:
-• Manual logits
-• Sigmoid math
-• Cross-entropy
-• Chain rule
-• Weight updates
-• Pre/post loss comparison
-
-No frameworks hiding the math.
-
-🔗 https://lnkd.in/e3NBkMhy
-
-💬 Final Thought
 Understanding backprop is like gaining X-ray vision into how AI learns.
 Once you see it… you can’t unsee it.
