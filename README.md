@@ -3,6 +3,7 @@
  It’s not. It’s feedback. It’s cause and effect.
  It’s how models learn.
 This week, I broke down backprop line-by-line in Python using real Lending Club credit-risk data. And finally — it clicked.
+
 🔍 What Backpropagation Really Does
 Backprop answers one question:
 How should I change each weight to make the prediction slightly less wrong?
